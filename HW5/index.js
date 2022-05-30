@@ -1,5 +1,7 @@
 const express= require ("express")
 const mongoose = require("mongoose");
+const TasksSchema = require("./models/TasksSchema");
+const UsersSchema = require("./models/UsersSchema");
 const taskRouter = require("./routers/taskRouter");
 const userRouter = require("./routers/userRouter");
 require("dotenv").config();
@@ -15,6 +17,7 @@ mongoose.connect(
 app.use(express.json());
 app.use(userRouter);
 app.use(taskRouter);
+
 
 app.listen(port, () => {
   console.log("Server is up on port " + port);

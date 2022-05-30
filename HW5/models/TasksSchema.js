@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-
-const TaskSchema = new mongoose.Schema({
+const TasksSchema = new mongoose.Schema({
     description:{
         type:String,
         required:true,
@@ -11,14 +10,15 @@ const TaskSchema = new mongoose.Schema({
         default: false
     },
     taskId:{
-        unique:true,
+        unique:[true, "Such a task already exists"],
         type:Number, 
         required:true
     },
     users:{
         type:[Number],
-        default:[]
+        //default:[]
     }
-})
+});
 
-module.exports = mongoose.model("TaskSchema", TaskSchema);
+module.exports = mongoose.model("TasksSchema", TasksSchema);
+
