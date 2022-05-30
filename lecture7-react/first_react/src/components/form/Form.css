@@ -1,0 +1,7 @@
+.divForm{
+    display: flex;
+    background-color: aqua;
+    margin: 3vw;
+    width: 50vw;
+    padding: 20px;
+}

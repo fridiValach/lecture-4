@@ -4,6 +4,7 @@ const TasksSchema = require("./models/TasksSchema");
 const UsersSchema = require("./models/UsersSchema");
 const taskRouter = require("./routers/taskRouter");
 const userRouter = require("./routers/userRouter");
+const allRouters = require("./routers/allRouters");
 require("dotenv").config();
 
 const app = express();
@@ -15,8 +16,9 @@ mongoose.connect(
 );
 
 app.use(express.json());
-app.use(userRouter);
-app.use(taskRouter);
+//app.use(userRouter);
+//app.use(taskRouter);
+app.use(allRouters);
 
 
 app.listen(port, () => {

@@ -74,26 +74,25 @@ function save(model, againstModel, schema, againstSchema, id, simpleModel) {
 
       try {
         const secondArray = await againstSchema
-          .where(model)
-          .includes(req.body.id);
+          .find({[model]:req.body.id})
         if (secondArray.length > 0) {
           for (one of secondArray) {
-            const thirdArray = [...one.model, req.body.id];
+            const thirdArray = [...one[model], req.body.id];
             await againstSchema.findOneAndUpdate(
-              { [id]: one.id },
-              { model: thirdArray }
+              { [id]: one[id] },
+              { [model]: thirdArray }
             );
           }
         }
       } catch {}
       try {
-        const secondArray = req.body.againstModel;
+        const secondArray = req.body[againstModel];
         for (one of secondArray) {
           const current = await againstSchema.findOne({ [id]: one });
-          const thirdArray = [...current.model, req.body.id];
+          const thirdArray = [...current[model], req.body.id];
           await againstSchema.findOneAndUpdate(
-            { id: one },
-            { model: thirdArray }
+            { [id]: one },
+            { [model]: thirdArray }
           );
         }
         res.send(simpleModel + " added succsesfully");
@@ -122,11 +121,11 @@ function deleteOne(model,againstModel, schema, againstSchema, id, againstId, sim
       if (current){
       await schema.findOneAndDelete({ [id]: req.params.id });
       try {
-        const secondArray = current.againstModel;
+        const secondArray = current[againstModel];
         for (one of secondArray) {
           const secondCurrent = await againstSchema.findOne({ [id]: one });
-          console.log(secondCurrent.model);
-          const thirdArray = [secondCurrent.model[0]].filter(
+          console.log(secondCurrent[model]);
+          const thirdArray = [secondCurrent[model][0]].filter(
             (tas) => tas !== req.params.id
           );
 
@@ -174,9 +173,7 @@ function update(model,schema,id,simpleModel) {
 function displayAgainst(model,againstModel,againstSchema,simpleModel) {
   router.get("/" + model + "/:id", async (req, res) => {
     try {
-      const secondArray = await againstSchema
-        .where(model)
-        .includes(req.params.id);
+      const secondArray = await againstSchema.findOne({[model]:req.params.id})
       res.send(secondArray);
     } catch {
       res.send(
